@@ -24,3 +24,10 @@ CREATE TABLE tb_transactions (
     INDEX idx_operation_type_id (operation_type_id),
     INDEX idx_account_operation (account_id, operation_type_id)
 );
+
+-- Populando tabela de operações
+INSERT INTO tb_operation_type (operation_type_id, operation) VALUES
+(1,'COMPRA A VISTA'),
+(2 ,'COMPRA PARCELADA'),
+(3,'SAQUE'),
+(4, 'PAGAMENTO');
