@@ -1,7 +1,9 @@
 package com.diego.app.resources.v1;
 
-import com.diego.app.domain.dto.AccountRequest;
-import com.diego.app.domain.dto.AccountResponse;
+import com.diego.app.domain.dto.account.AccountRequest;
+import com.diego.app.domain.dto.account.AccountResponse;
+import com.diego.app.domain.dto.exception.DataIntegrityViolationException;
+import com.diego.app.domain.dto.exception.ObjectNotFoundException;
 import com.diego.app.domain.entity.Account;
 import com.diego.app.infrastructure.mapper.AccountMapper;
 import com.diego.app.service.AccountService;
@@ -10,12 +12,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -65,6 +70,20 @@ class AccountControllerTest {
     }
 
     @Test
+    void whenCreateAccountReturnDataIntegrityViolation() {
+        when(accountService.createAccount(this.account)).thenThrow(new DataIntegrityViolationException("Documento já existe no sistema!"));
+        when(accountMapper.requestToAccount(any())).thenReturn(account);
+
+        try {
+            resource.createClient(request);
+        } catch (Exception ex) {
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+            assertEquals("Documento já existe no sistema!", ex.getMessage());
+        }
+    }
+
+
+    @Test
     void whenFindByIdThenReturnSuccess() {
         when(accountService.findById(anyInt())).thenReturn(account);
         when(accountMapper.requestToAccount(any())).thenReturn(account);
@@ -85,12 +104,15 @@ class AccountControllerTest {
 
     @Test
     void whenFindByIdThenReturnNotFound() {
-        when(accountService.findById(anyInt())).thenReturn(null);
+        when(accountService.findById(anyInt())).thenThrow(new ObjectNotFoundException("Documento não encontrado"));
         when(accountMapper.requestToAccount(any())).thenReturn(account);
 
-        ResponseEntity<AccountResponse> response = resource.getAccount(ID);
-
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        try {
+            resource.getAccount(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Documento não encontrado", ex.getMessage());
+        }
     }
 
 

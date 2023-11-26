@@ -1,5 +1,7 @@
 package com.diego.app.service;
 
+import com.diego.app.domain.dto.exception.DataIntegrityViolationException;
+import com.diego.app.domain.dto.exception.ObjectNotFoundException;
 import com.diego.app.domain.entity.Account;
 import com.diego.app.infrastructure.mapper.AccountMapper;
 import com.diego.app.repository.AccountRepository;
@@ -14,11 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = {AccountRepository.class, AccountService.class})
 class AccountServiceTest {
 
     public static final String DOCUMENT_NUMBER = "012345678900";
@@ -53,6 +54,29 @@ class AccountServiceTest {
         assertEquals(ID, response.getAccountId());
         assertEquals(DOCUMENT_NUMBER, response.getDocumentNumber());
 
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolation() {
+        when(repository.findByDocumentNumber(anyString())).thenReturn(Optional.of(account));
+        try {
+            service.createAccount(account);
+        } catch (Exception ex) {
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+            assertEquals("Documento já existe no sistema!", ex.getMessage());
+        }
+    }
+
+    @Test
+    void whenFindByIdThenReturnNotFound() {
+        when(repository.findByDocumentNumber(anyString())).thenReturn(Optional.empty());
+
+        try {
+            service.findById(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Documento não encontrado", ex.getMessage());
+        }
     }
 
     @Test

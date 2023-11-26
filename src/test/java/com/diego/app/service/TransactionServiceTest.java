@@ -1,5 +1,6 @@
 package com.diego.app.service;
 
+import com.diego.app.domain.dto.exception.ObjectNotFoundException;
 import com.diego.app.domain.entity.Account;
 import com.diego.app.domain.entity.OperationType;
 import com.diego.app.domain.entity.Transaction;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@SpringBootTest(classes = {TransactionService.class, AccountRepository.class, TransactionRepository.class, OperationTypeRepository.class})
 class TransactionServiceTest {
 
     public static final String DOCUMENT_NUMBER = "012345678900";
@@ -160,7 +161,7 @@ class TransactionServiceTest {
         try {
             service.createTransaction(transaction);
         } catch (Exception ex) {
-            assertEquals(EntityNotFoundException.class, ex.getClass());
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
             assertEquals("OperationType not found for ID: " + ID, ex.getMessage());
         }
     }
@@ -179,7 +180,7 @@ class TransactionServiceTest {
         try {
             service.createTransaction(transaction);
         } catch (Exception ex) {
-            assertEquals(EntityNotFoundException.class, ex.getClass());
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
             assertEquals("Account not found for ID: " + ID, ex.getMessage());
         }
     }

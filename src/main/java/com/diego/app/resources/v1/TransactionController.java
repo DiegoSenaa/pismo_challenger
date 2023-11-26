@@ -1,7 +1,7 @@
 package com.diego.app.resources.v1;
 
-import com.diego.app.domain.dto.TransactionRequest;
-import com.diego.app.domain.dto.TransactionResponse;
+import com.diego.app.domain.dto.transaction.TransactionRequest;
+import com.diego.app.domain.dto.transaction.TransactionResponse;
 import com.diego.app.domain.entity.Transaction;
 import com.diego.app.infrastructure.mapper.TransactionMapper;
 import com.diego.app.service.TransactionService;
@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/transactions")
-
+@Slf4j
 @Tag(name = "TransactionController", description = "Transaction operations ")
 public class TransactionController {
 
@@ -41,6 +42,7 @@ public class TransactionController {
         Transaction transaction = transactionService.createTransaction(transactionMapper.requestToTransaction(request));
         TransactionResponse response = transactionMapper.transactionToResponse(transaction);
 
+        log.info("response transaction: {}", response);
         return ResponseEntity.ok().body(response);
     }
 }
