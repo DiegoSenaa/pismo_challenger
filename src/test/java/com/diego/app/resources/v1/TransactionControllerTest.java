@@ -1,9 +1,8 @@
 package com.diego.app.resources.v1;
 
-import com.diego.app.domain.dto.AccountRequest;
-import com.diego.app.domain.dto.AccountResponse;
-import com.diego.app.domain.dto.TransactionRequest;
-import com.diego.app.domain.dto.TransactionResponse;
+import com.diego.app.domain.dto.account.AccountRequest;
+import com.diego.app.domain.dto.transaction.TransactionRequest;
+import com.diego.app.domain.dto.transaction.TransactionResponse;
 import com.diego.app.domain.entity.Account;
 import com.diego.app.domain.entity.OperationType;
 import com.diego.app.domain.entity.Transaction;

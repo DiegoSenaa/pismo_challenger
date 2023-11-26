@@ -1,15 +1,15 @@
-package com.diego.app.domain.dto;
+package com.diego.app.domain.dto.transaction;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransactionRequest {
 
     @Schema(description = "Client id", example = "1")

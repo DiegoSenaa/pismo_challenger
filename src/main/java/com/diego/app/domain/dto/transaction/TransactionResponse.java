@@ -1,13 +1,13 @@
-package com.diego.app.domain.dto;
+package com.diego.app.domain.dto.transaction;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransactionResponse {
     @Schema(description = "Operation type id", example="1")
     private Integer operationTypeId;
