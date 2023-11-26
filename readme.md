@@ -96,7 +96,10 @@ $ docker compose up mysql
 $ docker compose down --remove-orphans
 
 #Caso queira roda tanto o Mysql como a aplicação em container, basta executar dentro da pasta infra
-$ docker compose up
+$ docker compose build
+
+#Em seguida
+$ docker compose up -d
 
 # Para remover os containers execute o comando dentro da pasta infra
 $ docker compose down --remove-orphans
