@@ -19,7 +19,6 @@ Tabela de conteúdos
    * [Tecnologias](#-tecnologias)
      * [Testes Locais](#user-content-testes-locais)
      * [Backend](#user-content-backend)
-      * [Infra](#user-content-infra)
 <!--te-->
 
 
@@ -108,7 +107,7 @@ $ docker compose down --remove-orphans
 ```bash
 
 # Clone este repositório
-$ git clone git clone <url do projeto>
+$ git clone git clone git clone https://github.com/DiegoSenaa/pismo_challenger
 
 # No terminal
 $ mvn clean packge
