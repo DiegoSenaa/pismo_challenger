@@ -2,7 +2,7 @@
       <a href="#" alt="site do ecoleta"> Nome do Projeto </a>
 </h1>
 <h4 align="center">
-	🚧   Status 🚀 🚧
+	🚧   Status: Finalizado 🚀 🚧
 </h4>
 
 Tabela de conteúdos 
@@ -20,32 +20,27 @@ Tabela de conteúdos
      * [Testes Locais](#user-content-testes-locais)
      * [Backend](#user-content-backend)
       * [Infra](#user-content-infra)
-   * [Squad](#-squad-garantias-pessoais)
-   * [Confluence](#-confluence)
 <!--te-->
 
 
 ## 💻 Sobre o projeto
 
-Mussum Ipsum, cacilds vidis litro abertis. Quem num gosta di mim que vai caçá sua turmis!Praesent malesuada urna nisi, quis volutpat erat hendrerit non. Nam vulputate dapibus.A ordem dos tratores não altera o pão duris.Diuretics paradis num copo é motivis de denguis.
-
+Api em Java e Spring para transações.
 ---
 
 ## ⚙️ Funcionalidades
 
 
-  - [x] Feature 1
-  - [x] Feature 2
-  - [ ] Feature 3
-  - [ ] Feature 4
+  - [x] Create Transaction endpoint.
+  - [x] Create Account endpoint.
+  - [X] Find Account By Id endpoint.
 
 ---
 
 ## Release Notes
 <details>
   <summary>Click to expand!</summary>
-  1. Correção bug xpto  - jira-issue - xx/xx/xx<br>
-  2. Implementação da feature 123 - jira-issue - xx/xx/xx<br>
+  1. APP V1<br>
 </details>
 
 ---
@@ -54,28 +49,23 @@ Mussum Ipsum, cacilds vidis litro abertis. Quem num gosta di mim que vai caçá 
 
 <details>
   <summary>Click to expand!</summary>
-	<b>Adapters</b><br>
--   configs<br>
-   1. SQSConfig - Responsável pela comunicação com o SQS<br> 	
--   inbounds<br>
-   1.<br>	
--   outbounds<br>
-   1.	<br>
--   utils<br>
-   1.<br>
-<b>Application</b><br>
--   core<br>
-   1.<br>
--   ports<br>
-   1.<br>
+1  ./infra = Arquivos de cfg (SQL/Compose file)<br>
+2  ./src/main/java = Java files<br>	
+     *   ../domain = estruturas de dados, DTO | Entitys | Strategy's<br>
+     *   ../infrastructure = configuração/Plugins, mapper | configuration | commun <br>	
+     *   ../repository = comunicação com db , mapper | configuration | commun <br>
+     *   ../resources = controllers rest, v1 <br>
+     *   ../service = classes de negocio e suas interfaces <br>	
+
+
 </details>
 
 ---
 
 ## 🚀 Como executar o projeto
 
-1. Backend (pasta aonde está o código do projeto ex: /App) 
-2. Testes Locais(pasta aonde está os testes ex: /App/test)
+1. Backend (pasta aonde está o código do projeto ex: /src/main) 
+2. Testes Locais(pasta aonde está os testes ex:/src/test)
 3. Infra(pasta com os arquivos de infraestrutura ex: /infra)
 
 💡Observações importantes para execução do projeto caso seja necessário.
@@ -83,26 +73,34 @@ Mussum Ipsum, cacilds vidis litro abertis. Quem num gosta di mim que vai caçá 
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
-Listar as ferramentas essenciais.  
+Listar as ferramentas essenciais. 
+
+1. Docker
+2. Jdk21
+3. maven 3.9.5
 
 #### 🎲 Rodando o Backend
 
 ```bash
 
 # Clone este repositório
-$ git clone <url do projeto>
+$ git clone https://github.com/DiegoSenaa/pismo_challenger
 
-# Configurando maven IDE
-$ File > Settings > Search Maven > Definir settings.xml dentro da raiz do projeto
 
-# Passo 3
-$ Mussum Ipsum, cacilds vidis litro abertis. In elementis mé pra
+# No terminal
+$ mvn clean install
 
-# Passo 4
-$ quem é amistosis quis leo.Suco de cevadiss deixa as pessoas
+# Naveguei dentro do projeto até a pasta infra execute o comando
+$ docker compose up mysql
 
-# Passo 5
-$ mais interessantis.Em pé sem cair, deitado sem dormir,
+# Para remover o container mysql execute o comando dentro da pasta infra
+$ docker compose down --remove-orphans
+
+#Caso queira roda tanto o Mysql como a aplicação em container, basta executar dentro da pasta infra
+$ docker compose up
+
+# Para remover os containers execute o comando dentro da pasta infra
+$ docker compose down --remove-orphans
 
 ```
 #### 🧭 Rodando Testes Locais
@@ -112,17 +110,11 @@ $ mais interessantis.Em pé sem cair, deitado sem dormir,
 # Clone este repositório
 $ git clone git clone <url do projeto>
 
-# Configurando maven IDE
-$ File > Settings > Search Maven > Definir settings.xml dentro da raiz do projeto
+# No terminal
+$ mvn clean packge
 
-# Passo 3
-$ Mussum Ipsum, cacilds vidis litro abertis. In elementis mé pra
-
-# Passo 4
-$ quem é amistosis quis leo.Suco de cevadiss deixa as pessoas
-
-# Passo 5
-$ mais interessantis.Em pé sem cair, deitado sem dormir,
+# Arquivo de teste na pasta do projeto target/site
+$ executar no navegador o arquivo index.html
 
 ```
 
@@ -134,45 +126,18 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 #### **Testes Locais** 
 
--   **[Local Stack](https://localstack.cloud/)**
 -   **[JUnit](https://junit.org/junit5/)**
 -   **[Spring testing](https://docs.spring.io/spring-framework/docs/current/reference/html/testing.html)**
 
 
 #### **Backend**
 
--   **[Kotlin 1.x](https://kotlinlang.org/)**
--   **[Apache Maven 1.x](https://maven.apache.org/)**
--   **[Spring boot 2.x](https://spring.io/projects/spring-boot)**
-
-
-#### **Infra**
-
--   **[AWS SQS](https://aws.amazon.com/pt/sqs/)**
--   **[EKS - Namespace [fidejussorias]](https://aws.amazon.com/pt/eks/)**
--   **[AWS DynamoDB](https://aws.amazon.com/pt/dynamodb/)**
--   **[AWS KMS](https://aws.amazon.com/pt/kms/)**
+-   **[Java 21](https://kotlinlang.org/)**
+-   **[Apache Maven 3.9.5](https://maven.apache.org/)**
+-   **[Spring boot 3.2](https://spring.io/projects/spring-boot)**
+-   **[Mysql 8.2](https://dev.mysql.com/)**
 
 #### **Utilitários**
 
--   Recursos terceiros:  **[EQ3](https://#)**  →  **[BW](https://#)** → **[SNS Ofertas](https://#)**
 -   GitBash:  **[GitBash](https://git-scm.com/about)**
--   Editor: **[Intellij 2022.x](https://www.jetbrains.com/pt-br/idea/)**
--   Checkstyle: **[CheckStyleXptoKotlin](https://#)**
-
-## 🦸 Squad Garantias Pessoais
-
-Teach Lead's
-
-- Lead 1 - lead@mailer.com.br
-- Lead 2 - lead2@mailer.com.br
-
-
-Desenvolvido por:
-
-- Dev1 - dev1@mailer.com.br
-- Dev2- dev2@mailer.com.br
-
-## Confluence
- <sub valign="center"><b>Squad Garantias Pessoais</b></sub></a> <a href="<link do confluence da squad>" title="Squad Garantias Pessoais confluence">🚀</a>
- <br />
+-   Editor: **[Intellij 2023.x](https://www.jetbrains.com/pt-br/idea/)**

@@ -1,7 +1,10 @@
 version: '3.9'
+networks:
+  internal:
 services:
   mysql:
-    image: mysql:latest
+    container_name: mysql
+    image: mysql:8.2.0
     environment:
       MYSQL_DATABASE: 'account_db'
       MYSQL_USER: 'admin'
@@ -13,7 +16,19 @@ services:
     expose:
       - '3306'
     volumes:
-      - my-db:/var/lib/mysql
       - ./sql:/docker-entrypoint-initdb.d
-volumes:
-  my-db:
+    networks:
+     - internal
+  app:
+    container_name: app
+    depends_on:
+      - mysql
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - internal
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysql:3306/account_db?allowPublicKeyRetrieval=true

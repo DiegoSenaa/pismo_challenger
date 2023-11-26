@@ -6,16 +6,17 @@ import com.diego.app.domain.entity.Account;
 import com.diego.app.infrastructure.mapper.AccountMapper;
 import com.diego.app.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/accounts")
@@ -23,17 +24,21 @@ import java.util.Optional;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AccountMapper accountMapper;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, AccountMapper accountMapper) {
         this.accountService = accountService;
+        this.accountMapper = accountMapper;
     }
 
     @GetMapping("/{accountId}")
     @Operation(summary = "Get client by account id")
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AccountResponse.class)))
+    @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     public ResponseEntity<AccountResponse> getAccount(@PathVariable("accountId") int accountId) {
-        AccountResponse account = accountService.findById(accountId);
+        Account account = accountService.findById(accountId);
         if (!Objects.isNull(account)) {
-            return ResponseEntity.ok(account);
+            return ResponseEntity.ok(accountMapper.accountToResponse(account));
         }
 
         return ResponseEntity.notFound().build();
@@ -41,11 +46,13 @@ public class AccountController {
 
     @PostMapping
     @Operation(summary = "Create  a account")
-    public ResponseEntity<AccountResponse> createClient(@RequestBody AccountRequest accountRequest, UriComponentsBuilder uriBuilder) {
-       AccountResponse response = accountService.createAccount(accountRequest);
+    @ApiResponse(responseCode = "201", description = "Created", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AccountResponse.class)))
+    @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content)
+    public ResponseEntity<AccountResponse> createClient(@RequestBody @Valid AccountRequest accountRequest) {
+       Account account = accountService.createAccount(accountMapper.requestToAccount(accountRequest));
 
-        URI uri = uriBuilder.path("/v1/accounts/{id}").buildAndExpand(response.getAccountId()).toUri();
-        return ResponseEntity.created(uri).body(response);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(account.getAccountId()).toUri();
+        return ResponseEntity.created(uri).body(accountMapper.accountToResponse(account));
     }
 
 }

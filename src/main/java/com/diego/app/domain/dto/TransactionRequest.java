@@ -1,25 +1,27 @@
 package com.diego.app.domain.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class TransactionRequest {
 
-    @Schema(description = "Client id", example="1")
-    @NotBlank
+    @Schema(description = "Client id", example = "1")
+    @NotNull
     private Integer accountId;
 
-    @NotBlank
-    @Schema(description = "Operation type id", example="1")
+    @Schema(description = "Operation type id", example = "1")
+    @NotNull
     private Integer operationTypeId;
 
-    @NotBlank
-    @Schema(description = "Total value of operation", example="20.00")
+
+    @Schema(description = "Total value of operation", example = "20.00")
+    @Min(0L)
     private Double amount;
 }

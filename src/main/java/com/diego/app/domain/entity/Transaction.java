@@ -1,7 +1,10 @@
 package com.diego.app.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
@@ -13,6 +16,9 @@ import java.sql.Timestamp;
                 @Index(name = "idx_account_operation", columnList = "account_id, operation_type_id")
         })
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Transaction {
 
     @Id

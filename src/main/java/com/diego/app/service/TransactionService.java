@@ -1,9 +1,9 @@
 package com.diego.app.service;
 
-import com.diego.app.domain.dto.TransactionRequest;
 import com.diego.app.domain.dto.TransactionResponse;
+import com.diego.app.domain.entity.Transaction;
 
 public interface TransactionService {
 
-    public TransactionResponse createTransaction(TransactionRequest request);
+    public Transaction createTransaction(Transaction request);
 }
