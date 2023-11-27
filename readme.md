@@ -120,6 +120,9 @@ $ executar no navegador o arquivo index.html
 
 ```
 
+Documentação da api: 
+
+http://localhost:8080/swagger-ui.html.
 ---
 
 ## 🛠 Tecnologias
